@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  spark:
+    image: bitnami/spark:latest  # Spark เวอร์ชันพร้อมใช้
+    container_name: spark
+    environment:
+      - SPARK_MODE=master        # ตั้งเป็น master node
+    ports:
+      - "8080:8080"              # UI Web ของ Spark (localhost:8080)
+    volumes:
+      - ../:/app                 # Mount โค้ดโปรเจค CloudJet
+    working_dir: /app
+    networks:
+      - cloudjet-net
+
+  jupyter:
+    image: jupyter/pyspark-notebook  # Image ที่มี Spark + Jupyter + Python + Hadoop ครบ
+    container_name: jupyter
+    ports:
+      - "8888:8888"              # เปิด Jupyter Notebook (localhost:8888)
+    volumes:
+      - ../:/home/jovyan/work   # Mount โค้ดไปใน Jupyter (ในโฟลเดอร์ `work`)
+    networks:
+      - cloudjet-net
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"              # MinIO API Port
+      - "9001:9001"              # MinIO Console Web UI
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio-data:/data
+    command: server --console-address ":9001" /data
+    networks:
+      - cloudjet-net
+
+volumes:
+  minio-data:
+
+networks:
+  cloudjet-net:
