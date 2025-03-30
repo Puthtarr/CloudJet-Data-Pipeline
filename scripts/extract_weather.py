@@ -1,8 +1,9 @@
 import requests
 import json
 import os
+import pytz
 from dotenv import load_dotenv
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import logging
 
@@ -41,6 +42,7 @@ def extract_weather_data(date):
     }
 
     weather_results = []
+    print(f'Get Weather Data on date: {date}')
 
     for city_name, query in cities.items():
         url = "http://api.openweathermap.org/data/2.5/weather"
@@ -85,5 +87,6 @@ def extract_weather_data(date):
 
 
 if __name__ == "__main__":
-    date = datetime.now()
+    date = datetime.now(pytz.timezone("Asia/Bangkok"))
+    # print(f'Get Weather Data on date: {date}')
     extract_weather_data(date)

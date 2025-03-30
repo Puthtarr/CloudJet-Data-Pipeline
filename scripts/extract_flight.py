@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import pytz
 from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
@@ -31,8 +32,10 @@ def extract_flight_data(date):
     logging.info(f"Starting flight data extraction for {day}")
     # API Documentary >> https://aviationstack.com/documentation
     # Scope = out from donmuang, suvanaphom
-    departure_airport = ["BKK", "DMK"]
+    departure_airport = ["BKK"]
     arrival_airports = ["NRT", "HND", "ICN", "SIN", "KUL", "TPE", "SGN", "HKG"]
+
+    print(f'Get Flight Data on date: {date}')
 
     all_result = []
 
@@ -81,5 +84,6 @@ def extract_flight_data(date):
     logging.info("Extraction completed\n")
 
 if __name__ == "__main__":
-    date = datetime.now()
+    date = datetime.now(pytz.timezone("Asia/Bangkok"))
+    # print(f'Get Flight Data on date: {date}')
     extract_flight_data(date)
