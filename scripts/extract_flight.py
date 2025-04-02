@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
 import logging
+from datetime import datetime, timedelta
 
 # Load path
 from settings import RAW_FLIGHT_DATA_DIR, LOGS_DATA_DIR
@@ -84,6 +85,6 @@ def extract_flight_data(date):
     logging.info("Extraction completed\n")
 
 if __name__ == "__main__":
-    date = datetime.now(pytz.timezone("Asia/Bangkok"))
+    date = datetime.now(pytz.timezone("Asia/Bangkok")) - timedelta(days=0)
     # print(f'Get Flight Data on date: {date}')
     extract_flight_data(date)
