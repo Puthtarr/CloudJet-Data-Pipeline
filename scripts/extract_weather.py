@@ -87,6 +87,6 @@ def extract_weather_data(date):
 
 
 if __name__ == "__main__":
-    date = datetime.now(pytz.timezone("Asia/Bangkok"))
+    date = datetime.now(pytz.timezone("Asia/Bangkok")) - timedelta(days=0)
     # print(f'Get Weather Data on date: {date}')
     extract_weather_data(date)
